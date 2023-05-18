@@ -174,9 +174,9 @@
 				padding: 32px
 				padding-top: 297px
 				overflow: hidden
-				margin-right: 24px
 				cursor: pointer
 				box-shadow: 0 20px 20px rgba(0,0,0,.5)
+				transition: 0.5s all
 				// &:hover
 				// 	padding-top: 213px
 				// 	.card
@@ -199,8 +199,10 @@
 					opacity: .5
 					letter-spacing: 1.365px
 					text-transform: uppercase
+					transition: 0.5s all
 					&-arrow
 						opacity: 0
+						transition: 0.5s all
 				&__title
 					font-weight: 900
 					line-height: normal
@@ -209,6 +211,7 @@
 					color: #FFFFFF
 					margin-top: 12px
 					opacity: .4
+					transition: 0.5s all
 				&__description
 					font-weight: normal
 					line-height: 20px
@@ -217,6 +220,7 @@
 					margin-top: 16px
 					color: #FFFFFF
 					opacity: 0
+					transition: 0.5s all
 					&-item
 						display: flex
 						justify-content: space-between
@@ -246,17 +250,12 @@
 					padding-top: 213px
 					transition: 0.5s all
 					.card
-						&__controls
-							transition: 0.5s all
-							&-arrow
-								opacity: 1
-								transition: 0.5s all
+						&-arrow
+							opacity: 1
 						&__title
 							opacity: 1
-							transition: 0.5s all
 						&__description
 							opacity: 1
-							transition: 0.5s all
 			.slick-current .card
 				padding-top: 213px
 				&__controls

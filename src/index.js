@@ -7,6 +7,7 @@ const mainSlider = new Slider({
 	prevBtnsSelector: '.sidecontrol__controls-count',
 	vertical: true,
 	timingFunction: 'ease-in-out',
+	duration: 1000,
 });
 
 const sliderBackToStartButtons = document.querySelectorAll('.sidecontrol__label');
@@ -17,6 +18,17 @@ sliderBackToStartButtons.forEach(button => {
 	});
 });
 
+const showupSlider = new Slider({
+	sliderElemSelector: '.showup__content-slider',
+	slidesContainerSelector: '.showup__content-slider .showup__slider-slides',
+	nextBtnsSelector: '.showup .showup__next',
+	prevBtnsSelector: '.showup .showup__prev',
+	timingFunction: 'ease-in-out',
+	activeClass: 'card-active',
+	spaceBetween: 24,
+	duration: 500,
+});
+
 const modulesSlider = new Slider({
 	sliderElemSelector: '.modules__content-slider',
 	slidesContainerSelector: '.modules__content-slider .modules__slider-slides',
@@ -24,4 +36,17 @@ const modulesSlider = new Slider({
 	prevBtnsSelector: '.modules .slick-prev',
 	timingFunction: 'ease-in-out',
 	activeClass: 'card-active',
+	spaceBetween: 24,
+	duration: 500,
+});
+
+const feedSlider = new Slider({
+	sliderElemSelector: '.feed__slider',
+	slidesContainerSelector: '.feed__slider .feed__slider-slides',
+	nextBtnsSelector: '.feed .slick-next',
+	prevBtnsSelector: '.feed .slick-prev',
+	timingFunction: 'ease-in-out',
+	activeClass: 'feed__item-active',
+	spaceBetween: 32,
+	duration: 500,
 });

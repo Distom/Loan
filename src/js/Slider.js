@@ -12,6 +12,8 @@ export default class Slider {
 		animated = true,
 		timingFunction = 'linear',
 		activeClass,
+		spaceBetween = 0,
+		autoSlidingInterval,
 	}) {
 		this.sliderElemSelector = sliderElemSelector;
 		this.slidesContainerSelector = slidesContainerSelector;
@@ -28,6 +30,19 @@ export default class Slider {
 		this.animated = animated;
 		this.timingFunction = timingFunction;
 		this.activeClass = activeClass;
+		this.spaceBetween = spaceBetween;
+		this.autoSlidingInterval = autoSlidingInterval;
+
+		// to animate slides with different active and regular width
+		// wait until active slide's transition rendered to get correct values
+		render().then(() => {
+			this.slidesContainerWidth = this.slidesContainer.scrollWidth;
+			this.slidesContainerHeight = this.slidesContainer.scrollHeight;
+			this.activeSlideWidth = this.currentSlide.offsetWidth;
+			this.activeSlideHeight = this.currentSlide.offsetHeight;
+			this.slideWidth = this.slides[1].offsetWidth;
+			this.slideHeight = this.slides[1].offsetHeight;
+		});
 
 		this.init(startSlideIndex);
 	}
@@ -105,14 +120,8 @@ export default class Slider {
 		this.slidesContainer.style.display = 'flex';
 		this.slidesContainer.style.width = 'fit-content';
 		this.slidesContainer.style.height = 'fit-content';
-
-		if (this.orientation === 'X') {
-			this.slidesContainer.style.flexDirection = 'row';
-			this.slidesContainer.style.alignItems = 'center';
-		} else {
-			this.slidesContainer.style.flexDirection = 'column';
-			this.slidesContainer.style.justifyContent = 'center';
-		}
+		this.slidesContainer.style.gap = `${this.spaceBetween}px`;
+		this.slidesContainer.style.flexDirection = this.orientation === 'X' ? 'row' : 'column';
 	}
 
 	initSliderElem() {
@@ -140,8 +149,11 @@ export default class Slider {
 
 		const prevSlide = this.currentSlide;
 		const prevSlideIndex = this.getSlideIndex(prevSlide);
+		this.removeActiveClass(prevSlide);
+		this.addActiveClass(this.getSlide(newSlideIndex));
 
 		let isForwardDirection = prevSlideIndex < newSlideIndex;
+
 		// if sliding from last slide to first slide or from first to last
 		isForwardDirection =
 			Math.abs(prevSlideIndex - newSlideIndex) === this.slides.length - 1
@@ -149,12 +161,14 @@ export default class Slider {
 				: isForwardDirection;
 
 		let slidesDiff = Math.abs(prevSlideIndex - newSlideIndex);
+
 		// if sliding from last slide to first slide or from first to last
-		// it slides in one step, not through all slides
+		// we slide in one step, not through all slides
 		slidesDiff = slidesDiff === this.slides.length - 1 ? 1 : slidesDiff;
 
 		const slidePosition = this.slides.indexOf(this.getSlide(newSlideIndex));
 
+		// if it is backward direction we need to move slides elements before animation start
 		if (isForwardDirection) {
 			if (animated) await runSlideChangeAnimation.call(this);
 			updateSlidesSequence.call(this);
@@ -165,14 +179,34 @@ export default class Slider {
 			if (animated) await runSlideChangeAnimation.call(this);
 		}
 
-		this.removeActiveClass(prevSlide);
-		this.addActiveClass(this.currentSlide);
 		this.isChangingSlides = false;
 		this.dispatchSlideChangedEvent();
 
 		async function runSlideChangeAnimation() {
-			const perSlidePerсent = +(100 / this.slides.length).toFixed(4);
-			const slidePercent = perSlidePerсent * slidesDiff;
+			const activeSlideStepSize =
+				this.orientation === 'X'
+					? +(
+							((this.activeSlideWidth + this.spaceBetween) / this.slidesContainerWidth) *
+							100
+					  ).toFixed(4)
+					: +(
+							((this.activeSlideHeight + this.spaceBetween) / this.slidesContainerHeight) *
+							100
+					  ).toFixed(4);
+
+			const slideStepSize =
+				this.orientation === 'X'
+					? +(((this.slideWidth + this.spaceBetween) / this.slidesContainerWidth) * 100).toFixed(4)
+					: +(((this.slideHeight + this.spaceBetween) / this.slidesContainerHeight) * 100).toFixed(
+							4,
+					  );
+
+			// for slides with different active and regular width,
+			// step size depends on sliding direction
+			// if is slides backward we need to consider active slide width
+			const slidePercent = isForwardDirection
+				? slideStepSize * slidesDiff
+				: activeSlideStepSize + slideStepSize * (slidesDiff - 1);
 
 			const keyFrames = [
 				{ transform: `translate${this.orientation}(0)`, position: 'absolute' },

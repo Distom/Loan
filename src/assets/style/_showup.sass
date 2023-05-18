@@ -104,10 +104,9 @@
 				padding: 32px
 				padding-top: 100px
 				overflow: hidden
-				transition: 0.5s all
-				margin-right: 24px
 				cursor: pointer
 				box-shadow: 0 0px 20px rgba(0,0,0,.5)
+				transition: 0.5s all
 				&__controls
 					width: 100%
 					display: flex
@@ -151,6 +150,15 @@
 				&__3
 					background: url('../img/slide_3_m.jpg') center center no-repeat
 					background-size: cover
+				&-active
+					.card
+						&__controls
+							&-arrow
+								opacity: 1
+						&__title
+							opacity: 1
+						&__description
+							opacity: 1
 			.slick-current .card
 				&__controls
 					&-arrow
@@ -159,7 +167,6 @@
 					opacity: 1
 				&__description
 					opacity: .5
-			.slick-current
 		&-side
 			width: 86px
 			height: 100%
