@@ -9,7 +9,7 @@ export default class Slider {
 		startSlideIndex = 0,
 		vertical = false,
 		duration = 600,
-		animated = true,
+		animationType = 'none',
 		timingFunction = 'linear',
 		activeClass,
 		spaceBetween = 0,
@@ -28,7 +28,7 @@ export default class Slider {
 
 		this.orientation = vertical ? 'Y' : 'X';
 		this.duration = duration;
-		this.animated = animated;
+		this.animationType = animationType;
 		this.timingFunction = timingFunction;
 		this.activeClass = activeClass;
 		this.spaceBetween = spaceBetween;
@@ -154,114 +154,6 @@ export default class Slider {
 		await this.slideTo(this.currentSlideIndex - 1);
 	}
 
-	async slideTo(slideIndex, animated = this.animated) {
-		const newSlideIndex = this.getValidSlideIndex(slideIndex);
-
-		if (this.isChangingSlides) return;
-		if (this.currentSlideIndex === newSlideIndex) {
-			this.addActiveClass(this.currentSlide);
-			return;
-		}
-
-		this.isChangingSlides = true;
-
-		const prevSlide = this.currentSlide;
-		const prevSlideIndex = this.getSlideIndex(prevSlide);
-		this.removeActiveClass(prevSlide);
-		this.addActiveClass(this.getSlide(newSlideIndex));
-
-		let isForwardDirection = prevSlideIndex < newSlideIndex;
-
-		// if sliding from last slide to first slide or from first to last
-		isForwardDirection =
-			Math.abs(prevSlideIndex - newSlideIndex) === this.slides.length - 1
-				? !isForwardDirection
-				: isForwardDirection;
-
-		let slidesDiff = Math.abs(prevSlideIndex - newSlideIndex);
-
-		// if sliding from last slide to first slide or from first to last
-		// we slide in one step, not through all slides
-		slidesDiff = slidesDiff === this.slides.length - 1 ? 1 : slidesDiff;
-
-		const slidePosition = this.slides.indexOf(this.getSlide(newSlideIndex));
-
-		// if it is backward direction we need to move slides elements before animation start
-		if (isForwardDirection) {
-			if (animated) await runSlideChangeAnimation.call(this);
-			updateSlidesSequence.call(this);
-			await render();
-		} else {
-			updateSlidesSequence.call(this);
-			await render();
-			if (animated) await runSlideChangeAnimation.call(this);
-		}
-
-		this.isChangingSlides = false;
-		this.dispatchSlideChangedEvent();
-
-		async function runSlideChangeAnimation() {
-			const activeSlideStepSize =
-				this.orientation === 'X'
-					? +(
-							((this.activeSlideWidth + this.spaceBetween) / this.slidesContainerWidth) *
-							100
-					  ).toFixed(4)
-					: +(
-							((this.activeSlideHeight + this.spaceBetween) / this.slidesContainerHeight) *
-							100
-					  ).toFixed(4);
-
-			const slideStepSize =
-				this.orientation === 'X'
-					? +(((this.slideWidth + this.spaceBetween) / this.slidesContainerWidth) * 100).toFixed(4)
-					: +(((this.slideHeight + this.spaceBetween) / this.slidesContainerHeight) * 100).toFixed(
-							4,
-					  );
-
-			// for slides with different active and regular width,
-			// step size depends on sliding direction
-			// if is slides backward we need to consider active slide width
-			const slidePercent = isForwardDirection
-				? slideStepSize * slidesDiff
-				: activeSlideStepSize + slideStepSize * (slidesDiff - 1);
-
-			const keyFrames = [
-				{ transform: `translate${this.orientation}(0)`, position: 'absolute' },
-				{ transform: `translate${this.orientation}(-${slidePercent}%)`, position: 'absolute' },
-			];
-
-			return this.slidesContainer.animate(isForwardDirection ? keyFrames : keyFrames.reverse(), {
-				duration: this.duration,
-				easing: this.timingFunction,
-			}).finished;
-		}
-
-		function updateSlidesSequence() {
-			if (isForwardDirection) {
-				this.slides.forEach((slide, i) => {
-					if (i < slidePosition) this.slidesContainer.append(slide);
-				});
-			} else {
-				this.slides
-					.slice()
-					.reverse()
-					.forEach(slide => {
-						const i = this.getSlideIndex(slide);
-
-						if (prevSlideIndex !== 0) {
-							if (i < prevSlideIndex && i >= newSlideIndex) {
-								this.slidesContainer.prepend(slide);
-							}
-						} else if (i === this.slides.length - 1) {
-							// if sliding from first slide to last
-							this.slidesContainer.prepend(slide);
-						}
-					});
-			}
-		}
-	}
-
 	initAutoSliding(interval = this.autoSlidingInterval) {
 		this.autoSlidingInterval = interval;
 		this.breakAutoSliding();
@@ -312,6 +204,149 @@ export default class Slider {
 	removeActiveClass(slide) {
 		if (this.activeClass) {
 			slide.classList.remove(this.activeClass);
+		}
+	}
+
+	async slideTo(slideIndex, animationType = this.animationType) {
+		const newSlideIndex = this.getValidSlideIndex(slideIndex);
+
+		if (this.isChangingSlides) return;
+		if (this.currentSlideIndex === newSlideIndex) {
+			this.addActiveClass(this.currentSlide);
+			return;
+		}
+
+		this.isChangingSlides = true;
+
+		const prevSlide = this.currentSlide;
+		const prevSlideIndex = this.getSlideIndex(prevSlide);
+		const newSlide = this.getSlide(newSlideIndex);
+
+		this.removeActiveClass(prevSlide);
+		this.addActiveClass(newSlide);
+
+		let isForwardDirection = prevSlideIndex < newSlideIndex;
+
+		// if sliding from last slide to first slide or from first to last
+		isForwardDirection =
+			Math.abs(prevSlideIndex - newSlideIndex) === this.slides.length - 1
+				? !isForwardDirection
+				: isForwardDirection;
+
+		let slidesDiff = Math.abs(prevSlideIndex - newSlideIndex);
+
+		// if sliding from last slide to first slide or from first to last
+		// we slide in one step, not through all slides
+		slidesDiff = slidesDiff === this.slides.length - 1 ? 1 : slidesDiff;
+
+		const slidePosition = this.slides.indexOf(this.getSlide(newSlideIndex));
+
+		// if it is backward direction we need to move slides elements before animation start
+		if (isForwardDirection) {
+			await runAnimation.call(this, animationType);
+			updateSlidesSequence.call(this);
+			await render();
+		} else {
+			updateSlidesSequence.call(this);
+			await render();
+			await runAnimation.call(this, animationType);
+		}
+
+		this.isChangingSlides = false;
+		this.dispatchSlideChangedEvent();
+
+		function updateSlidesSequence() {
+			if (isForwardDirection) {
+				this.slides.forEach((slide, i) => {
+					if (i < slidePosition) this.slidesContainer.append(slide);
+				});
+			} else {
+				this.slides
+					.slice()
+					.reverse()
+					.forEach(slide => {
+						const i = this.getSlideIndex(slide);
+
+						if (prevSlideIndex !== 0) {
+							if (i < prevSlideIndex && i >= newSlideIndex) {
+								this.slidesContainer.prepend(slide);
+							}
+						} else if (i === this.slides.length - 1) {
+							// if sliding from first slide to last
+							this.slidesContainer.prepend(slide);
+						}
+					});
+			}
+		}
+
+		async function runAnimation(type) {
+			switch (type) {
+				case 'none':
+					break;
+				case 'glide':
+					await glideAnimation.call(this);
+					break;
+				case 'opacity':
+					await opacityAnimation.call(this);
+					break;
+				// no default
+			}
+		}
+
+		async function glideAnimation() {
+			const activeSlideStepSize =
+				this.orientation === 'X'
+					? +(
+							((this.activeSlideWidth + this.spaceBetween) / this.slidesContainerWidth) *
+							100
+					  ).toFixed(4)
+					: +(
+							((this.activeSlideHeight + this.spaceBetween) / this.slidesContainerHeight) *
+							100
+					  ).toFixed(4);
+
+			const slideStepSize =
+				this.orientation === 'X'
+					? +(((this.slideWidth + this.spaceBetween) / this.slidesContainerWidth) * 100).toFixed(4)
+					: +(((this.slideHeight + this.spaceBetween) / this.slidesContainerHeight) * 100).toFixed(
+							4,
+					  );
+
+			// for slides with different active and regular width,
+			// step size depends on sliding direction
+			// if is slides backward we need to consider active slide width
+			const slidePercent = isForwardDirection
+				? slideStepSize * slidesDiff
+				: activeSlideStepSize + slideStepSize * (slidesDiff - 1);
+
+			const keyFrames = [
+				{ transform: `translate${this.orientation}(0)`, position: 'absolute' },
+				{ transform: `translate${this.orientation}(-${slidePercent}%)`, position: 'absolute' },
+			];
+
+			return this.slidesContainer.animate(isForwardDirection ? keyFrames : keyFrames.reverse(), {
+				duration: this.duration,
+				easing: this.timingFunction,
+			}).finished;
+		}
+
+		async function opacityAnimation() {
+			const prevSlideAnimationKeyFrames = [
+				{ opacity: 1, position: 'absolute' },
+				{ opacity: 0, position: 'absolute' },
+			];
+
+			const newSlideAnimationKeyFrames = [{ opacity: 0 }, { opacity: 1 }];
+
+			const animationOptions = {
+				duration: this.duration,
+				easing: this.timingFunction,
+			};
+
+			return Promise.all([
+				prevSlide.animate(prevSlideAnimationKeyFrames, animationOptions).finished,
+				newSlide.animate(newSlideAnimationKeyFrames, animationOptions).finished,
+			]);
 		}
 	}
 }

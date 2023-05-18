@@ -4,8 +4,8 @@ const mainSlider = new Slider({
 	sliderElemSelector: '.page',
 	slidesContainerSelector: '.page .page__slides',
 	nextBtnsSelector: '.next',
-	prevBtnsSelector: '.sidecontrol__controls-count',
 	vertical: true,
+	animationType: 'glide',
 	timingFunction: 'ease-in-out',
 	duration: 1000,
 });
@@ -23,10 +23,12 @@ const showupSlider = new Slider({
 	slidesContainerSelector: '.showup__content-slider .showup__slider-slides',
 	nextBtnsSelector: '.showup .showup__next',
 	prevBtnsSelector: '.showup .showup__prev',
+	animationType: 'glide',
 	timingFunction: 'ease-in-out',
 	activeClass: 'card-active',
 	spaceBetween: 24,
 	duration: 500,
+	autoSliding: true,
 });
 
 const modulesSlider = new Slider({
@@ -35,6 +37,7 @@ const modulesSlider = new Slider({
 	nextBtnsSelector: '.modules .slick-next',
 	prevBtnsSelector: '.modules .slick-prev',
 	timingFunction: 'ease-in-out',
+	animationType: 'glide',
 	activeClass: 'card-active',
 	spaceBetween: 24,
 	duration: 500,
@@ -46,6 +49,7 @@ const feedSlider = new Slider({
 	slidesContainerSelector: '.feed__slider .feed__slider-slides',
 	nextBtnsSelector: '.feed .slick-next',
 	prevBtnsSelector: '.feed .slick-prev',
+	animationType: 'glide',
 	timingFunction: 'ease-in-out',
 	activeClass: 'feed__item-active',
 	spaceBetween: 32,
