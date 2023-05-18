@@ -188,13 +188,20 @@ a
 		opacity: .5
 .overlay
 	position: fixed
-	display: none
+	z-index: 50
+	visibility: hidden
+	opacity: 0
+	display: flex
 	justify-content: center
 	align-items: center
 	width: 100%
 	height: 100%
 	top: 0
 	background-color: rgba(0,0,0, .8)
+	transition: visibility 0.3s, opacity 0.3s
+	&_visible
+		visibility: visible
+		opacity: 1
 	.video
 		width: 720px//
 		height: 480px //
