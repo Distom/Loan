@@ -38,6 +38,7 @@ const modulesSlider = new Slider({
 	activeClass: 'card-active',
 	spaceBetween: 24,
 	duration: 500,
+	autoSliding: true,
 });
 
 const feedSlider = new Slider({

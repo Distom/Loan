@@ -13,7 +13,8 @@ export default class Slider {
 		timingFunction = 'linear',
 		activeClass,
 		spaceBetween = 0,
-		autoSlidingInterval,
+		autoSliding = false,
+		autoSlidingInterval = 3000,
 	}) {
 		this.sliderElemSelector = sliderElemSelector;
 		this.slidesContainerSelector = slidesContainerSelector;
@@ -31,6 +32,7 @@ export default class Slider {
 		this.timingFunction = timingFunction;
 		this.activeClass = activeClass;
 		this.spaceBetween = spaceBetween;
+		this.autoSliding = autoSliding;
 		this.autoSlidingInterval = autoSlidingInterval;
 
 		// to animate slides with different active and regular width
@@ -84,27 +86,17 @@ export default class Slider {
 	}
 
 	init(startSlideIndex) {
+		this.bindMethods();
+
 		this.initSlides();
 		this.initSliderElem();
 		this.initSlidesContainer();
+		this.bindSliderButtons();
+
 		this.slideTo(startSlideIndex, false);
 
-		if (this.nextBtns.length) {
-			this.nextBtns.forEach(btn =>
-				btn.addEventListener('click', event => {
-					event.preventDefault();
-					this.nextSlide();
-				}),
-			);
-		}
-
-		if (this.prevBtns.length) {
-			this.prevBtns.forEach(btn =>
-				btn.addEventListener('click', event => {
-					event.preventDefault();
-					this.prevSlide();
-				}),
-			);
+		if (this.autoSliding) {
+			this.initAutoSliding();
 		}
 	}
 
@@ -126,6 +118,32 @@ export default class Slider {
 
 	initSliderElem() {
 		this.sliderElem.style.overflow = 'hidden';
+	}
+
+	bindSliderButtons() {
+		if (this.nextBtns.length) {
+			this.nextBtns.forEach(btn =>
+				btn.addEventListener('click', event => {
+					event.preventDefault();
+					this.nextSlide();
+				}),
+			);
+		}
+
+		if (this.prevBtns.length) {
+			this.prevBtns.forEach(btn =>
+				btn.addEventListener('click', event => {
+					event.preventDefault();
+					this.prevSlide();
+				}),
+			);
+		}
+	}
+
+	bindMethods() {
+		this.startAutoSliding = this.startAutoSliding.bind(this);
+		this.stopAutoSliding = this.stopAutoSliding.bind(this);
+		this.nextSlide = this.nextSlide.bind(this);
 	}
 
 	async nextSlide() {
@@ -242,6 +260,35 @@ export default class Slider {
 					});
 			}
 		}
+	}
+
+	initAutoSliding(interval = this.autoSlidingInterval) {
+		this.autoSlidingInterval = interval;
+		this.breakAutoSliding();
+		this.startAutoSliding();
+
+		[this.sliderElem, ...this.nextBtns, ...this.prevBtns].forEach(elem => {
+			elem.addEventListener('mouseenter', this.stopAutoSliding);
+			elem.addEventListener('mouseleave', this.startAutoSliding);
+		});
+	}
+
+	startAutoSliding() {
+		this.stopAutoSliding();
+		this.autoSlidingIntervalKey = setInterval(this.nextSlide, this.autoSlidingInterval);
+	}
+
+	stopAutoSliding() {
+		clearInterval(this.autoSlidingIntervalKey);
+	}
+
+	breakAutoSliding() {
+		this.stopAutoSliding();
+
+		[this.sliderElem, ...this.nextBtns, ...this.prevBtns].forEach(elem => {
+			elem.removeEventListener('mouseenter', this.stopAutoSliding);
+			elem.removeEventListener('mouseleave', this.startAutoSliding);
+		});
 	}
 
 	dispatchSlideChangedEvent() {
