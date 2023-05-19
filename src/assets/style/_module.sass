@@ -15,37 +15,43 @@
 		align-items: flex-start
 		justify-content: space-between
 	&__video
-		width: 45%
+		width: 35%
 		height: 100%
 		margin-left: 84px
 		padding-left: 66px
 		padding-top: 64px
 		background: $main-color
+		display: flex
+		flex-direction: column
+		gap: 36px
 		&-item
 			width: 490px
+			width: 408px
 			height: 242px
+			height: 202px
 			background-color: #fff
-			margin-bottom: 36px
 			padding: 24px 32px
 			text-align: left
 			position: relative
 			border-radius: 8px
+			filter: grayscale(100%)
+			display: flex
+			flex-direction: column
+			justify-content: space-between
+			opacity: .6
+			pointer-events: none
 			&_1
 				background: url('../img/showup.jpg') center center no-repeat
 				background-size: cover
 			&_2
 				background: url('../img/evolve.jpg') center center no-repeat
 				background-size: cover
-				filter: grayscale(100%)
-				opacity: .6
 			&_3
 				background: url('../img/showup6.jpg') center center no-repeat
 				background-size: cover
 			&_4
 				background: url('../img/evolve6.jpg') center center no-repeat
 				background-size: cover
-				filter: grayscale(100%)
-				opacity: .6
 			.video__title
 				font-weight: 800
 				line-height: normal
@@ -56,24 +62,45 @@
 				position: relative
 				left: 0
 				top: 0
-				margin-top: 80px
 				transform: none
 				justify-content: flex-start
 				width: fit-content
-				.closed
+				cursor: default
+				&__circle
 					background: #D8D8D8
-				.lock
-					width: 21px
-					height: 27px
-					transform: translateY(-50%) translateX(-45%)
+					.open
+						display: none
+					.lock
+						width: 21px
+						height: 27px
+						transform: translateY(-50%) translateX(-45%)
+						display: block
 				&__text
 					color: #fff
-				.attention
-					font-weight: 900
-					line-height: 20px
-					font-size: 14px
-					letter-spacing: -0.28px
-					text-transform: none
+					display: none
+					&_attention
+						font-weight: 900
+						line-height: 20px
+						font-size: 14px
+						letter-spacing: -0.28px
+						text-transform: none
+						display: block
+			&_active
+				filter: none
+				opacity: 1
+				pointer-events: all
+				.play
+					cursor: pointer
+				.play__circle
+					background: #fff
+					.open
+						display: block
+					.lock
+						display: none
+				.play__text
+					display: block
+					&_attention
+						display: none
 		.btn
 			padding: 19px 24px 21px 24px
 			background: #9EC73D
@@ -82,12 +109,13 @@
 			align-items: center
 			color: #fff
 			font-size: 13px
+			width: 210px
 			.share
 				margin-right: 32px
 			svg
 				transform: translateY(2px)
 	&__info
-		width: 50%
+		width: 60%
 		height: 100%
 		padding: 86px 64px 0 64px
 		position: relative
