@@ -1,4 +1,5 @@
 import Slider from './js/Slider';
+import DifferencesList from './js/DifferencesList';
 
 const mainSlider = new Slider({
 	sliderElemSelector: '.page',
@@ -54,4 +55,14 @@ const feedSlider = new Slider({
 	activeClass: 'feed__item-active',
 	spaceBetween: 32,
 	duration: 500,
+});
+
+document.querySelectorAll('.officer').forEach(officer => {
+	const differencesList = new DifferencesList({
+		container: officer,
+		cardSelector: '.officer__card-item',
+		buttonSelector: '.plus',
+		cardActiveClass: 'officer__card-item_visible',
+		emptyHiddenClass: 'officer__card-item-empty_hidden',
+	});
 });
