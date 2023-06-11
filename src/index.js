@@ -1,5 +1,6 @@
 import Slider from './js/Slider';
 import DifferencesList from './js/DifferencesList';
+import DelayedSliderCard from './js/DelayedSliderCard';
 
 const mainSlider = new Slider({
 	sliderElemSelector: '.page',
@@ -65,4 +66,12 @@ document.querySelectorAll('.officer').forEach(officer => {
 		cardActiveClass: 'officer__card-item_visible',
 		emptyHiddenClass: 'officer__card-item-empty_hidden',
 	});
+});
+
+const teacherCard = new DelayedSliderCard({
+	sliderElemSelector: '.page',
+	cardSelector: '.hanson',
+	slideIndex: 2,
+	delay: 3000,
+	activeClass: 'hanson_active',
 });

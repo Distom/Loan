@@ -190,6 +190,7 @@ export default class Slider {
 				detail: {
 					slide: this.currentSlide,
 					slideIndex: this.currentSlideIndex,
+					sliderElemSelector: this.sliderElemSelector,
 				},
 			}),
 		);
