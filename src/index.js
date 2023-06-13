@@ -62,7 +62,7 @@ document.querySelectorAll('.officer').forEach(officer => {
 	const differencesList = new DifferencesList({
 		container: officer,
 		cardSelector: '.officer__card-item',
-		buttonSelector: '.plus',
+		buttonSelector: '.officer__card-item-empty',
 		cardActiveClass: 'officer__card-item_visible',
 		emptyHiddenClass: 'officer__card-item-empty_hidden',
 	});
@@ -72,6 +72,6 @@ const teacherCard = new DelayedSliderCard({
 	sliderElemSelector: '.page',
 	cardSelector: '.hanson',
 	slideIndex: 2,
-	delay: 3000,
+	delay: 1000,
 	activeClass: 'hanson_active',
 });
