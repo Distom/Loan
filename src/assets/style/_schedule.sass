@@ -70,7 +70,6 @@
 						margin-right: 24px
 	&__form
 		width: 40%
-		height: 100%
 		padding-top: 100px
 		&-title
 			font-weight: 800
@@ -78,6 +77,25 @@
 			font-size: 32px
 			letter-spacing: -0.64px
 		.form
+			min-height: 440px
+			&__success
+				p
+					display: block
+					color: #000
+					font-size: 15px
+					font-weight: 900
+			&__error
+				padding-top: 20px
+				&-window
+					background: red
+					border-radius: 4px
+					width: fit-content
+					padding: 15px
+					p
+						display: block
+						color: #ffffff
+						font-size: 15px
+						font-weight: 900
 			&__item
 				margin-top: 32px
 				width: 340px

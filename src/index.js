@@ -9,7 +9,7 @@ const mainSlider = new Slider({
 	vertical: true,
 	animationType: 'glide',
 	timingFunction: 'ease-in-out',
-	duration: 10,
+	duration: 1000,
 });
 
 const sliderBackToStartButtons = document.querySelectorAll('.sidecontrol__label');
@@ -58,15 +58,16 @@ const feedSlider = new Slider({
 	duration: 500,
 });
 
-document.querySelectorAll('.officer').forEach(officer => {
-	const differencesList = new DifferencesList({
-		container: officer,
-		cardSelector: '.officer__card-item',
-		buttonSelector: '.officer__card-item-empty',
-		cardActiveClass: 'officer__card-item_visible',
-		emptyHiddenClass: 'officer__card-item-empty_hidden',
-	});
-});
+document.querySelectorAll('.officer').forEach(
+	officer =>
+		new DifferencesList({
+			container: officer,
+			cardSelector: '.officer__card-item',
+			buttonSelector: '.officer__card-item-empty',
+			cardActiveClass: 'officer__card-item_visible',
+			emptyHiddenClass: 'officer__card-item-empty_hidden',
+		}),
+);
 
 const teacherCard = new DelayedSliderCard({
 	sliderElemSelector: '.page',

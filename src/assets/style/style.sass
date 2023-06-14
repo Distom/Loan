@@ -216,6 +216,7 @@ a
 .msg
 	display: none
 	margin-top: 20px
+
 @import 'showup'
 @import 'difference'
 @import 'modules'
@@ -224,3 +225,48 @@ a
 @import 'schedule'
 @import 'module'
 @import 'videoblock'
+@import 'loader'
+
+.form
+	position: relative
+	&__loader
+		display: none
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+
+		&_dark
+			.lds-roller div:after
+				background: #2546bc
+	&__success
+		display: none
+	&__error
+		display: none
+	&_loading
+		.form__wrapper
+			display: none
+		.form__loader
+			display: block
+		.form__success
+			display: none
+		.form__error
+			display: none
+	&_success
+		.form__wrapper
+			display: none
+		.form__loader
+			display: none
+		.form__success
+			display: block
+		.form__error
+			display: none
+	&_error
+		.form__wrapper
+			display: block
+		.form__loader
+			display: none
+		.form__success
+			display: none
+		.form__error
+			display: block
