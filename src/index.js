@@ -9,7 +9,7 @@ const mainSlider = new Slider({
 	vertical: true,
 	animationType: 'glide',
 	timingFunction: 'ease-in-out',
-	duration: 1000,
+	duration: 10,
 });
 
 const sliderBackToStartButtons = document.querySelectorAll('.sidecontrol__label');

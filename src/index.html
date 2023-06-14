@@ -773,7 +773,7 @@
                             <div class="form__block">
                                 <div>
                                     <label for="name">My name is</label>
-                                    <input name="name" type="text" placeholder="Your name">
+                                    <input name="name" type="text" placeholder="Your name" required>
                                     <svg class="icon" width="18" height="20" viewBox="0 0 18 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g opacity="0.2">
@@ -792,7 +792,7 @@
                             <div class="form__block">
                                 <div>
                                     <label for="name">And i am</label>
-                                    <input name="position" type="text" placeholder="ex. Retail loan officer">
+                                    <input name="position" type="text" placeholder="ex. Retail loan officer" required>
                                     <svg class="icon" width="22" height="20" viewBox="0 0 22 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <rect opacity="0.2" x="1" y="5" width="20" height="14" rx="2" stroke="#fff"
@@ -806,7 +806,7 @@
                                 </div>
                                 <div>
                                     <label for="name">From</label>
-                                    <select name="city" id="city">
+                                    <select name="city" id="city" required>
                                         <option value="New-York">New-York</option>
                                         <option value="London">London</option>
                                         <option value="Paris">Paris</option>
@@ -838,7 +838,8 @@
                             <div class="form__block">
                                 <div>
                                     <label for="name">Hit me up here</label>
-                                    <input name="email" type="email" placeholder="Email">
+                                    <input name="email" type="email" placeholder="Email"
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required data-mask="latin">
                                     <svg class="icon" width="22" height="18" viewBox="0 0 22 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g opacity="0.2">
@@ -854,7 +855,8 @@
 
                                 <div>
                                     <label for="name">And here</label>
-                                    <input name="phone" type="text" id="phone" placeholder="+1 (___) ___-____">
+                                    <input name="phone" type="text" id="phone" placeholder="+1 (___) ___-____" required
+                                        data-mask="phone">
                                     <svg class="icon" width="23" height="22" viewBox="0 0 23 22" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g opacity="0.2">
@@ -1256,7 +1258,7 @@
                         <form class="form">
                             <div class="form__item">
                                 <label for="name">My name is</label>
-                                <input name="name" type="text" placeholder="Your name">
+                                <input name="name" type="text" placeholder="Your name" required>
                                 <svg class="icon" width="18" height="20" viewBox="0 0 18 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.2">
@@ -1273,7 +1275,8 @@
 
                             <div class="form__item">
                                 <label for="name">You can contact me here</label>
-                                <input name="email" type="email" placeholder="Your email">
+                                <input name="email" type="email" placeholder="Your email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required data-mask="latin">
                                 <svg class="icon" width="22" height="18" viewBox="0 0 22 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.2">
@@ -1289,7 +1292,7 @@
 
                             <div class="form__item">
                                 <label for="name">I want to meet you on</label>
-                                <input name="date" type="date" placeholder="When?">
+                                <input name="date" type="date" placeholder="When?" required>
                                 <svg class="icon" width="20" height="22" viewBox="0 0 20 22" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.2">
