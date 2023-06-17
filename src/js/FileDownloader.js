@@ -15,6 +15,7 @@ export default class FileDownloader {
 		linkElem.href = this.filePath;
 		linkElem.download = this.filePath.split('/').at(-1);
 		linkElem.style.display = 'none';
+		linkElem.dataset.ignoreRouter = true;
 
 		document.body.append(linkElem);
 		linkElem.click();

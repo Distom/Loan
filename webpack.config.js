@@ -63,6 +63,12 @@ module.exports = {
 		historyApiFallback: {
 			index: '/404.html',
 		},
+		client: {
+			overlay: {
+				errors: true,
+				warnings: false,
+			},
+		},
 	},
 	optimization: {
 		splitChunks: {

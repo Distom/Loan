@@ -11,9 +11,9 @@
 <body>
 	<script>
 		localStorage.setItem('originalRoute', `${location.pathname}${location.hash}`);
-		let repositoryRegEx = new RegExp('.+(?=/)');
-		let repositoryPath = location.pathname.match(repositoryRegEx) || '';
-
+		// let repositoryRegEx = new RegExp('.+?(?=/)');
+		// let repositoryPath = location.pathname.match(repositoryRegEx) || '';
+		const repositoryPath = '';
 		location.replace(repositoryPath + '/');
 	</script>
 </body>

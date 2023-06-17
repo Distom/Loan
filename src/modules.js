@@ -3,14 +3,14 @@ import VideoCardsList from './js/VideoCardsList';
 import Toggle from './js/Toggle';
 import FileDownloader from './js/FileDownloader';
 
-const mainSlider = new Slider({
+/* const mainSlider = new Slider({
 	sliderElemSelector: '.moduleapp',
 	slidesContainerSelector: '.moduleapp .moduleapp__slides',
 	nextBtnsSelector: '.next',
 	prevBtnsSelector: '.prev',
 	timingFunction: 'ease-in-out',
 	animationType: 'opacity',
-});
+}); */
 
 document.querySelectorAll('.module').forEach(moduleElem => {
 	const videos = moduleElem.querySelector('.module__video');

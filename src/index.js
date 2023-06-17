@@ -2,7 +2,7 @@ import Slider from './js/Slider';
 import DifferencesList from './js/DifferencesList';
 import DelayedSliderCard from './js/DelayedSliderCard';
 
-const mainSlider = new Slider({
+/* const mainSlider = new Slider({
 	sliderElemSelector: '.page',
 	slidesContainerSelector: '.page .page__slides',
 	nextBtnsSelector: '.next',
@@ -18,7 +18,7 @@ sliderBackToStartButtons.forEach(button => {
 		event.preventDefault();
 		mainSlider.slideTo(0);
 	});
-});
+}); */
 
 const showupSlider = new Slider({
 	sliderElemSelector: '.showup__content-slider',
